@@ -11,7 +11,7 @@ const inProgressColumn = document.getElementById("in-progress");
 const doneColumn = document.getElementById("done");
 const columns = document.querySelectorAll(".task-list");
 
-let tasks = loadTasks();
+let tasks = normalizeTasks(loadTasks());
 
 taskForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -22,7 +22,7 @@ taskForm.addEventListener("submit", function (e) {
     return;
   }
 
-  const newTask = createTask(text);
+  const newTask = createTask(text, getNextOrder("todo"));
 
   tasks.push(newTask);
   saveTasks(tasks);
@@ -30,6 +30,7 @@ taskForm.addEventListener("submit", function (e) {
 
   renderTasks();
 });
+
 searchInput.addEventListener("input", function () {
   renderTasks();
 });
@@ -48,9 +49,9 @@ function renderTasks() {
 
   const query = searchInput.value.toLowerCase();
 
-  const filteredTasks = tasks.filter(task =>
-    task.text.toLowerCase().includes(query)
-  );
+  const filteredTasks = tasks
+    .filter(task => task.text.toLowerCase().includes(query))
+    .sort((a, b) => a.order - b.order);
 
   filteredTasks.forEach(task => {
     const taskElement = createTaskElement(task, handleEdit, handleDelete);
@@ -84,29 +85,19 @@ function renderTasks() {
     showEmptyState(doneColumn);
   }
 }
+
 function handleDelete(taskId) {
   if (!confirm("Are you sure you want to delete this task?")) {
     return;
   }
 
   tasks = deleteTask(tasks, taskId);
+  tasks = normalizeTasks(tasks);
   saveTasks(tasks);
   renderTasks();
 }
 
-function handleEdit(taskId) {
-  const task = tasks.find(t => t.id === taskId);
-
-  if (!task) {
-    return;
-  }
-
-  const newText = prompt("Edit task:", task.text);
-
-  if (newText === null) {
-    return;
-  }
-
+function handleEdit(taskId, newText) {
   const trimmedText = newText.trim();
 
   if (trimmedText === "") {
@@ -118,13 +109,41 @@ function handleEdit(taskId) {
   renderTasks();
 }
 
+function getNextOrder(status) {
+  const columnTasks = tasks.filter(task => task.status === status);
+
+  if (!columnTasks.length) {
+    return 0;
+  }
+
+  return Math.max(...columnTasks.map(task => task.order ?? 0)) + 1;
+}
+
+function normalizeTasks(tasksArray) {
+  const statusOrder = ["todo", "in-progress", "done"];
+  const normalized = tasksArray.map(task => ({
+    ...task,
+    order: task.order ?? 0
+  }));
+
+  statusOrder.forEach(status => {
+    const sameStatusTasks = normalized.filter(task => task.status === status);
+
+    sameStatusTasks.forEach((task, index) => {
+      task.order = index;
+    });
+  });
+
+  return normalized;
+}
+
 renderTasks();
 
 setupDragAndDrop(
   columns,
   () => tasks,
   updatedTasks => {
-    tasks = updatedTasks;
+    tasks = normalizeTasks(updatedTasks);
   },
   saveTasks,
   renderTasks

@@ -1,8 +1,9 @@
-export function createTask(text) {
+export function createTask(text, order = 0) {
   return {
     id: Date.now(),
     text,
-    status: "todo"
+    status: "todo",
+    order
   };
 }
 
