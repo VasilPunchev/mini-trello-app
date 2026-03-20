@@ -1,73 +1,93 @@
-# Mini Trello Task Manager
+# 🧩 Mini Trello App
 
-A small Kanban-style task manager built with Vanilla JavaScript.
-The app allows users to create, manage, and organize tasks across multiple columns using a drag-and-drop interface.
+A modern and interactive task management app inspired by Trello.
 
-## Features
+## 🚀 Features
 
-* Add tasks
-* Edit tasks
-* Delete tasks
-* Drag & drop tasks between columns
-* Search tasks
-* Task counters per column
-* Empty state when no tasks are present
-* LocalStorage persistence (tasks remain after page refresh)
-* Responsive layout
+- ✅ Add tasks
+- ✏️ Inline edit (no prompt, real UI editing)
+- 🗑️ Delete tasks with confirmation
+- 🔍 Live search / filter tasks
+- 📊 Task counters per column
+- 📦 Local storage persistence
+- 🧲 Drag & drop between columns
+- 🔀 Drag & reorder tasks within columns
+- 🎯 Clean modular architecture (ES Modules)
+- 🎨 Custom favicon
 
-## Tech Stack
+---
 
-* HTML
-* CSS
-* Vanilla JavaScript (ES Modules)
+## 🖥️ Live Demo
 
-## Project Structure
+👉 https://vasilpunchev.github.io/mini-trello-app/
 
-```
-mini-trello-app
-│
-├── index.html
-├── styles.css
-└── src
-    ├── app.js        # Main application logic
-    ├── dom.js        # DOM rendering and UI elements
-    ├── tasks.js      # Task creation and modification logic
-    ├── storage.js    # LocalStorage management
-    └── drag.js       # Drag and drop functionality
-```
+*(Activate GitHub Pages to enable this link)*
 
-## How to Run the Project
+---
 
-1. Clone the repository
+## 🛠️ Tech Stack
 
-```
-git clone https://github.com/VasilPunchev/mini-trello-app.git
-```
+- HTML5
+- CSS3 (Flexbox & Grid)
+- JavaScript (ES6 Modules)
+- LocalStorage API
 
-2. Open the project folder
+---
 
-```
-cd mini-trello-app
-```
+## 📂 Project Structure
 
-3. Open `index.html` in your browser.
 
-## Functionality Overview
+src/
+├── app.js # Main logic & orchestration
+├── dom.js # DOM creation & UI handling
+├── drag.js # Drag & drop + reorder logic
+├── storage.js # LocalStorage handling
+├── tasks.js # Task CRUD logic
 
-The application is structured using modular JavaScript:
 
-* **app.js** handles the main application logic and state.
-* **dom.js** creates and manages task UI elements.
-* **tasks.js** manages task creation, editing, and deletion.
-* **storage.js** handles saving and loading tasks from LocalStorage.
-* **drag.js** implements drag-and-drop behavior between columns.
+---
 
-## Future Improvements
+## 🧠 How It Works
 
-Possible enhancements for the project:
+Each task contains:
 
-* Task priority levels
-* Due dates for tasks
-* Dark mode
-* Modal window for editing tasks instead of prompt()
-* Live deployment with GitHub Pages
+- `id` – unique identifier
+- `text` – task content
+- `status` – (todo / in-progress / done)
+- `order` – controls position in column
+
+### Flow:
+1. User creates or edits a task
+2. State updates
+3. Data is saved in `localStorage`
+4. UI re-renders automatically
+
+---
+
+## 🎯 Key Highlights
+
+- Replaced `prompt()` with **inline editing UI**
+- Implemented **drag & reorder system**
+- Added **real-time search filtering**
+- Clean separation of logic into modules
+
+---
+
+## 📸 Screenshot
+
+*(Recommended: add screenshot here later)*
+
+---
+
+## 📌 Future Improvements
+
+- 🌓 Dark mode
+- 📅 Due dates
+- 🏷️ Labels / priorities
+- 🌐 Backend (API + database)
+
+---
+
+## 👨‍💻 Author
+
+- GitHub: https://github.com/VasilPunchev
